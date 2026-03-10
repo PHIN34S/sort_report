@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bubble Sort Visualization</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .array {
+                display: flex;
+                justify-content: center;
+                margin: 20px;
+            }
+            .bar {
+                width: 30px;
+                margin: 0 2px;
+                background-color: teal;
+                text-align: center;
+                color: white;
+                transition: background-color 0.3s, height 0.3s;
+            }
+            .bar.active {
+                background-color: orange;
+            }
+            .bar.sorted {
+                background-color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Bubble Sort Visualization</h1>
+        <div class="array" id="array"></div>
+        <button onclick="startBubbleSort()">Sort Array</button>
+    
+        <script>
+            // Function to generate a random array
+            function generateRandomArray(size, min, max) {
+                const array = [];
+                for (let i = 0; i < size; i++) {
+                    array.push(Math.floor(Math.random() * (max - min + 1)) + min);
+                }
+                return array;
+            }
+    
+            // Function to display the array as bars
+            function displayArray(arr, activeIndices = [], sortedIndices = []) {
+                const arrayDiv = document.getElementById('array');
+                arrayDiv.innerHTML = '';
+                arr.forEach((value, index) => {
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    bar.style.height = value + 'px';
+                    bar.innerText = value;
+    
+                    // Highlight active bars
+                    if (activeIndices.includes(index)) {
+                        bar.classList.add('active');
+                    }
+    
+                    // Highlight sorted bars
+                    if (sortedIndices.includes(index)) {
+                        bar.classList.add('sorted');
+                    }
+    
+                    arrayDiv.appendChild(bar);
+                });
+            }
+    
+            // Bubble Sort algorithm with visualization
+            async function bubbleSort(arr) {
+                const n = arr.length;
+                for (let i = 0; i < n; i++) {
+                    let swapped = false;
+                    for (let j = 0; j < n - i - 1; j++) {
+                        displayArray(arr, [j, j + 1]); // Highlight the bars being compared
+                        await new Promise(resolve => setTimeout(resolve, 300)); // Delay for visualization
+    
+                        if (arr[j] > arr[j + 1]) {
+                            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // Swap
+                            swapped = true;
+                            displayArray(arr, [j, j + 1]); // Update display after swap
+                            await new Promise(resolve => setTimeout(resolve, 300));
+                        }
+                    }
+                    displayArray(arr, [], [...Array(n - i).keys()].map(k => n - k - 1)); // Mark sorted elements
+                    if (!swapped) break; // No swaps means the array is sorted
+                }
+            }
+    
+            // Function to start a new Bubble Sort process
+            function startBubbleSort() {
+                const newArray = generateRandomArray(10, 50, 300); // Generate a new random array
+                displayArray(newArray); // Display the new array
+                bubbleSort(newArray); // Start sorting the new array
+            }
+        </script>
+    </body>
+    </html>
+    with open('bubble_sort_visualization.html', 'w') as file:
+        file.write('''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .array {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .bar {
+            width: 30px;
+            margin: 0 2px;
+            background-color: teal;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bubble Sort Visualization</h1>
+    <div class="array" id="array"></div>
+    <button onclick="startBubbleSort()">Sort Array</button>
+
+    <script>
+        const sampleArray = [64, 34, 25, 12, 22, 11, 90];
+
+        function displayArray(arr) {
+            const arrayDiv = document.getElementById('array');
+            arrayDiv.innerHTML = '';
+            arr.forEach(value => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = value + 'px';
+                bar.innerText = value;
+                arrayDiv.appendChild(bar);
+            });
+        }
+
+        async function bubbleSort(arr) {
+            const n = arr.length;
+            for (let i = 0; i < n; i++) {
+                let swapped = false;
+                for (let j = 0; j < n - i - 1; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // swap
+                        swapped = true;
+                        displayArray(arr);
+                        await new Promise(resolve => setTimeout(resolve, 500)); // delay for visualization
+                    }
+                }
+                if (!swapped) break; // No swaps means the array is sorted
+            }
+            return arr;
+        }
+
+        function startBubbleSort() {
+            bubbleSort(sampleArray.slice());
+        }
+
+        displayArray(sampleArray);
+    </script>
+</body>
+</html>
+''')
+# Create a file to explain the Bubble Sort algorithm
+with open('bubble_sort_explanation.html', 'w') as file:
+    file.write('''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bubble Sort Explanation</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    h1 {
+        color: teal;
+    }
+    p {
+        line-height: 1.6;
+    }
+    .complexity {
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+<h1>Bubble Sort Algorithm</h1>
+<p>Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.</p>
+
+<h2>Operating Principles</h2>
+<p>1. Start at the beginning of the array.</p>
+<p>2. Compare the first two elements. If the first is greater than the second, swap them.</p>
+<p>3. Move to the next pair of adjacent elements and repeat the pr                        if (arr[j] > arr[j + 1]) {
+                            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // Swap elements
+                            swapped = true;
+                            await visualizeArray(arr, j, j + 1); // Smooth visualization
+                        }
+                    }
+                    if (!swapped) break; // No swaps means the array is sortedp>The time complexity of Bubble Sort is:</p>
+<ul>
+    <li>Best Case: <span class="complexity">O(n)</span> (when the             // Function to start a new Bubble Sort process
+            function startBubbleSort() {
+                const newArray = generateRandomArray(10, 10, 300); // Generate a new random array
+                displayArray(newArray); // Display the new array
+                bubbleSort(newArray); // Start sorting the new array
+            }
+        </script>
+
+        <!-- Add a link to navigate back to the homepage -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="index.html" style="font-size: 18px; color: teal; text-decoration: none;">&larr; Back to Homepage</a>
+        </div>itional space.</p>
+</body>
+</html>
+''')<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort Visualization</title>
+    <style>
+        /* Style for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: teal;
+            text-align: center;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Style for the array container */
+        .array {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 300px;
+            margin: 20px auto;
+            border: 2px solid white;
+            width: 80%;
+        }
+
+        /* Style for each bar in the array */
+        .bar {
+            width: 30px;
+            margin: 0 2px;
+            background-color: white;
+            color: teal;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Style for the button */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: white;
+            color: teal;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bubble Sort Visualization</h1>
+    <p>Click the button below to visualize the Bubble Sort algorithm.</p>
+    <div class="array" id="array"></div>
+    <button onclick="startBubbleSort()">Sort Array</button>
+
+    <script>
+        // Sample array to be sorted
+        const sampleArray = [64, 34, 25, 12, 22, 11, 90];
+
+        // Function to display the array as bars
+        function displayArray(array) {
+            const arrayContainer = document.getElementById('array');
+            arrayContainer.innerHTML = ''; // Clear previous bars
+
+            array.forEach(value => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = value + 'px'; // Set height based on value
+                bar.innerText = value; // Display the value inside the bar
+                arrayContainer.appendChild(bar);
+            });
+        }
+
+        // Bubble Sort algorithm with visualization
+        async function bubbleSort(array) {
+            const length = array.length;
+
+            for (let i = 0; i < length; i++) {
+                let swapped = false;
+
+                for (let j = 0; j < length - i - 1; j++) {
+                    if (array[j] > array[j + 1]) {
+                        // Swap the elements
+                        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                        swapped = true;
+
+                        // Update the display after each swap
+                        displayArray(array);
+
+                        // Add a delay for visualization
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                }
+
+                // If no elements were swapped, the array is sorted
+                if (!swapped) break;
+            }
+
+            return array;
+        }
+
+        // Function to start the Bubble Sort visualization
+        function startBubbleSort() {
+            // Pass a copy of the sample array to avoid modifying the original
+            bubbleSort(sampleArray.slice());
+        }
+
+        // Display the initial array on page load
+        displayArray(sampleArray);
+    </script>
+</body>
+</html>        <script>
+            // Function to generate a random array
+            function generateRandomArray(size, min, max) {
+                const array = [];
+                for (let i = 0; i < size; i++) {
+                    array.push(Math.floor(Math.random() * (max - min + 1)) + min);
+                }
+                return array;
+            }
+
+            // Function to display the array as bars
+            function displayArray(arr) {
+                const arrayDiv = document.getElementById('array');
+                arrayDiv.innerHTML = '';
+                arr.forEach(value => {
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    bar.style.height = value + 'px';
+                    bar.innerText = value;
+                    arrayDiv.appendChild(bar);
+                });
+            }
+
+            // Bubble Sort algorithm with visualization
+            async function bubbleSort(arr) {
+                const n = arr.length;
+                for (let i = 0; i < n; i++) {
+                    let swapped = false;
+                    for (let j = 0; j < n - i - 1; j++) {
+                        if (arr[j] > arr[j + 1]) {
+                            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // swap
+                            swapped = true;
+                            displayArray(arr);
+                            await new Promise(resolve => setTimeout(resolve, 500)); // delay for visualization
+                        }
+                    }
+                    if (!swapped) break; // No swaps means the array is sorted
+                }
+                return arr;
+            }
+
+            // Function to start a new Bubble Sort process
+            function startBubbleSort() {
+                const newArray = generateRandomArray(10, 10, 300); // Generate a new random array
+                displayArray(newArray); // Display the new array
+                bubbleSort(newArray); // Start sorting the new array
+            }
+        </script>        <script>
+            // Function to generate a random array
+            function generateRandomArray(size, min, max) {
+                const array = [];
+                for (let i = 0; i < size; i++) {
+                    array.push(Math.floor(Math.random() * (max - min + 1)) + min);
+                }
+                return array;
+            }
+
+            // Function to display the array as bars
+            function displayArray(arr) {
+                const arrayDiv = document.getElementById('array');
+                arrayDiv.innerHTML = '';
+                arr.forEach(value => {
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    bar.style.height = value + 'px';
+                    bar.innerText = value;
+                    arrayDiv.appendChild(bar);
+                });
+            }
+
+            // Bubble Sort algorithm with visualization
+            async function bubbleSort(arr) {
+                const n = arr.length;
+                for (let i = 0; i < n; i++) {
+                    let swapped = false;
+                    for (let j = 0; j < n - i - 1; j++) {
+                        if (arr[j] > arr[j + 1]) {
+                            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // swap
+                            swapped = true;
+                            displayArray(arr);
+                            await new Promise(resolve => setTimeout(resolve, 500)); // delay for visualization
+                        }
+                    }
+                    if (!swapped) break; // No swaps means the array is sorted
+                }
+                return arr;
+            }
+
+            // Function to start a new Bubble Sort process
+            function startBubbleSort() {
+                const newArray = generateRandomArray(10, 10, 300); // Generate a new random array
+                displayArray(newArray); // Display the new array
+                bubbleSort(newArray); // Start sorting the new array
+            }
+        </script>
