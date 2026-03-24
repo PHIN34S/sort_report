@@ -67,4 +67,13 @@
                         [data[j], data[j+1]] = [data[j+1], data[j]];
                         
                         draw(); // Re-render bars
-                        await new Promise(r =>
+                        await new Promise(r => setTimeout(r, 300));
+                    }
+                }
+            }
+            startBtn.disabled = false; // Re-enable button after sorting
+        }
+        draw();
+    </script>
+</body>
+</html>
