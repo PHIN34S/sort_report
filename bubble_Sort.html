@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bubble Sort Page</title>
+    <title>Bubble Sort Visualizer</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; max-width: 800px; margin: auto; }
         .nav { margin-bottom: 20px; }
-        .bar { display: inline-block; width: 20px; margin-right: 5px; background: teal; vertical-align: bottom; }
+        .bar { display: inline-block; width: 25px; margin-right: 5px; background: teal; vertical-align: bottom; transition: height 0.2s; }
+        .visualizer-box { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; }
+        #container { height: 200px; border-bottom: 2px solid #333; display: flex; align-items: flex-end; margin-bottom: 20px; }
+        .controls { margin-top: 10px; }
+        button { padding: 10px 15px; cursor: pointer; background: teal; color: white; border: none; border-radius: 4px; }
+        button:disabled { background: #ccc; }
+        .definition { background: #e0f2f1; padding: 15px; border-left: 5px solid teal; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="nav"><a href="./index.html">← Back Home</a></div>
-    <h1>Bubble Sort Visualizer</h1>
-    <div id="container" style="height: 200px; border-bottom: 2px solid #000;"></div>
-    <button onclick="sort()">Start Sort</button>
+    
+    <h1>Bubble Sort</h1>
+
+    <div class="definition">
+        <strong>What is Bubble Sort?</strong>
+        <p>Bubble Sort is a simple comparison-based algorithm. It works by repeatedly stepping through the list, comparing adjacent elements, and swapping them if they are in the wrong order. This process repeats until the largest elements "bubble up" to their correct positions at the end of the list.</p>
+    </div>
+
+    <div class="visualizer-box">
+        <div id="container"></div>
+        <div class="controls">
+            <button id="startBtn" onclick="sort()">Start Sort</button>
+            <button onclick="resetData()">Shuffle/Reset</button>
+        </div>
+    </div>
 
     <script>
-        let data = [40, 10, 30, 20, 50];
+        let data = [40, 10, 30, 20, 50, 15, 45];
         const cont = document.getElementById('container');
+        const startBtn = document.getElementById('startBtn');
+
+        // Function to draw the bars
         function draw() {
             cont.innerHTML = '';
             data.forEach(h => {
@@ -26,18 +47,24 @@
                 cont.appendChild(div);
             });
         }
-        async function sort() {
-            for(let i=0; i<data.length; i++) {
-                for(let j=0; j<data.length-i-1; j++) {
-                    if(data[j] > data[j+1]) {
-                        [data[j], data[j+1]] = [data[j+1], data[j]];
-                        draw();
-                        await new Promise(r => setTimeout(r, 400));
-                    }
-                }
-            }
+
+        // New function to reset/shuffle the data
+        function resetData() {
+            data = data.sort(() => Math.random() - 0.5);
+            startBtn.disabled = false;
+            draw();
         }
-        draw();
-    </script>
-</body>
-</html>
+
+        // The sorting logic
+        async function sort() {
+            startBtn.disabled = true; // Disable button while sorting
+            let n = data.length;
+            
+            for(let i=0; i < n; i++) {
+                for(let j=0; j < n - i - 1; j++) {
+                    if(data[j] > data[j+1]) {
+                        // Swap logic
+                        [data[j], data[j+1]] = [data[j+1], data[j]];
+                        
+                        draw(); // Re-render bars
+                        await new Promise(r =>
