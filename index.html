@@ -3,152 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorting Algorithms Hub</title>
+    <title>Algorithm Dashboard</title>
     <style>
-        :root { --primary: teal; --dark: #006666; --bg: #f4f4f9; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg); color: #333; }
-        
-        /* Navigation & Header */
-        header { background: var(--primary); color: white; padding: 30px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .nav-bar { background: #333; padding: 10px 20px; display: none; } /* Hidden on home */
-        .nav-bar a { color: white; text-decoration: none; cursor: pointer; font-weight: bold; }
-
-        /* Views */
-        .view { display: none; padding: 20px; max-width: 900px; margin: auto; }
-        .view.active { display: block; animation: fadeIn 0.5s; }
-
-        /* Home Card */
-        .card { background: white; padding: 40px; border-radius: 12px; shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; margin-top: 50px; }
-        
-        /* Visualizer */
-        #visualizer { display: flex; align-items: flex-end; height: 250px; gap: 8px; background: #eee; padding: 15px; border-radius: 8px; margin: 20px 0; border-bottom: 5px solid var(--primary); }
-        .bar { flex: 1; background: var(--primary); transition: 0.3s; color: white; text-align: center; font-size: 14px; font-weight: bold; border-radius: 4px 4px 0 0; }
-
-        /* Buttons */
-        .btn { padding: 15px 30px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; color: white; transition: 0.3s; }
-        .btn-primary { background: var(--primary); }
-        .btn-primary:hover { background: var(--dark); }
-        .btn-secondary { background: #666; margin-left: 10px; }
-
-        .code-area { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; text-align: left; font-family: 'Consolas', monospace; overflow-x: auto; }
-        
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; background-color: #f4f4f9; }
+        header { background-color: teal; color: white; padding: 40px 0; }
+        .container { margin: 50px auto; max-width: 600px; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .link-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: teal;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .link-button:hover { background-color: #006666; transform: translateY(-2px); }
     </style>
 </head>
 <body>
-
-    <div id="nav" class="nav-bar">
-        <a onclick="showView('home')">← Back to Dashboard</a>
-    </div>
-
-    <header id="mainHeader">
-        <h1>Algorithm Learning Hub</h1>
+    <header>
+        <h1>Sorting Algorithms Library</h1>
+        <p>Select an algorithm to visualize its logic</p>
     </header>
 
-    <div id="home" class="view active">
+    <div class="container">
         <div class="card">
             <h2>Bubble Sort</h2>
-            <p>Learn how elements "bubble up" to their correct positions through repeated swaps.</p>
-            <button class="btn btn-primary" onclick="showView('bubbleSort')">Launch Visualizer</button>
+            <p>The simplest sorting algorithm that works by repeatedly swapping adjacent elements if they are in the wrong order.</p>
+            <a href="bubble_sort.html" class="link-button">Launch Visualizer →</a>
         </div>
     </div>
-
-    <div id="bubbleSort" class="view">
-        <h2>Bubble Sort Interactive</h2>
-        <div id="visualizer"></div>
-        
-        <div style="margin-bottom: 30px;">
-            <button id="startBtn" onclick="startSort()" class="btn btn-primary">Start Sorting</button>
-            <button id="resetBtn" onclick="reset()" class="btn btn-secondary">Shuffle Bars</button>
-        </div>
-
-        <h3>The Logic (C Implementation)</h3>
-        <div class="code-area">
-            <pre>
-void bubbleSort(int arr[], int n) {
-    for (int i = 0; i < n-1; i++) {
-        for (int j = 0; j < n-i-1; j++) {
-            if (arr[j] > arr[j+1]) {
-                // Swap values
-                int temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
-            }
-        }
-    }
-}</pre>
-        </div>
-    </div>
-
-    <script>
-        // VIEW SWITCHING LOGIC
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            
-            const nav = document.getElementById('nav');
-            const header = document.getElementById('mainHeader');
-            
-            if(viewId === 'home') {
-                nav.style.display = 'none';
-                header.style.display = 'block';
-            } else {
-                nav.style.display = 'block';
-                header.style.display = 'none';
-                reset(); // Initialize bars
-            }
-        }
-
-        // BUBBLE SORT LOGIC
-        const visualizer = document.getElementById('visualizer');
-        let data = [60, 20, 95, 40, 75, 15, 35, 85];
-        let sorting = false;
-
-        function render() {
-            visualizer.innerHTML = '';
-            data.forEach(val => {
-                const bar = document.createElement('div');
-                bar.className = 'bar';
-                bar.style.height = val + '%';
-                bar.innerText = val;
-                visualizer.appendChild(bar);
-            });
-        }
-
-        async function startSort() {
-            if (sorting) return;
-            sorting = true;
-            document.getElementById('startBtn').disabled = true;
-            
-            let bars = visualizer.children;
-            for (let i = 0; i < data.length; i++) {
-                for (let j = 0; j < data.length - i - 1; j++) {
-                    bars[j].style.background = 'orange';
-                    bars[j+1].style.background = 'orange';
-                    
-                    await new Promise(r => setTimeout(r, 350));
-
-                    if (data[j] > data[j+1]) {
-                        [data[j], data[j+1]] = [data[j+1], data[j]];
-                        render();
-                        bars = visualizer.children;
-                    }
-                    bars[j].style.background = 'teal';
-                }
-                bars[data.length - i - 1].style.background = '#4CAF50';
-            }
-            sorting = false;
-            document.getElementById('startBtn').disabled = false;
-        }
-
-        function reset() {
-            if (sorting) return;
-            data = Array.from({length: 8}, () => Math.floor(Math.random() * 80) + 15);
-            render();
-        }
-
-        // Init
-        render();
-    </script>
 </body>
 </html>
