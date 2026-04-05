@@ -1,75 +1,75 @@
-# sort_report
+# 🫧 sort_report: Sorting Algorithms Visualizer
 
-## 📚 Sorting Algorithms Visualization System
-**Repository:** [https://github.com/PHIN34S/sort_report](https://github.com/PHIN34S/sort_report)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/PHIN34S/sort_report)
+[![Language](https://img.shields.io/badge/Language-Vanilla%20JS-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-An integrated, interactive web-based tool featuring classic sorting algorithms. This project aims to help students and developers visualize algorithmic logic, step-by-step execution, and complexity characteristics through high-fidelity animations and real-time pseudocode tracking.
-
----
-
-## 🔗 Project Navigation
-Access the interactive modules directly through these files:
-
-* **[Bubble Sort](bubble-sort.html)**: Adjacent swapping logic where larger values "bubble" to the top.
-* **[Selection Sort](selection-sort.html)**: Systematic scanning to find minimum values and place them in order.
-* **[Insertion Sort](insertion-sort.html)**: Building a sorted sub-list one element at a time, similar to sorting playing cards.
+> **"Abstract logic made visible."** > `sort_report` is a lightweight, high-performance web tool designed to demystify classic computer science algorithms through real-time, interactive animations.
 
 ---
 
-## 🧪 Algorithm Principles & Details
+## 🕹️ Interactive Playground
+Experience the algorithms directly by launching these modules:
 
-### 1. Bubble Sort
-The algorithm repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. 
-
-* **Key Feature**: Includes an optimization where the process terminates early if a full pass occurs without any swaps.
-* **Time Complexity**: Best $O(n)$, Average $O(n^2)$, Worst $O(n^2)$.
-* **Stability**: **Stable ✓**
-
-### 2. Selection Sort
-Selection sort divides the input list into two parts: a sorted sub-list of items built up from left to right and a remaining unsorted sub-list. It finds the smallest element in the unsorted sub-list and swaps it with the leftmost unsorted element.
-
-* **Key Feature**: Minimizes the number of swaps ($n-1$ max), making it useful when memory write-cycles are costly.
-* **Time Complexity**: $O(n^2)$ for all cases.
-* **Stability**: **Unstable ✗**
-
-### 3. Insertion Sort
-Insertion sort iterates through an input list and removes one element per iteration, finding the place it belongs in the sorted list and inserting it there.
-
-* **Key Feature**: Highly efficient for small data sets and "nearly sorted" arrays.
-* **Time Complexity**: Best $O(n)$, Average $O(n^2)$, Worst $O(n^2)$.
-* **Stability**: **Stable ✓**
+| Algorithm | Mechanism | Key Focus |
+| :--- | :--- | :--- |
+| **[Bubble Sort](bubble-sort.html)** | Swapping | Adjacent comparison & "Floating" logic |
+| **[Selection Sort](selection-sort.html)** | Scanning | Minimum value extraction & Index tracking |
+| **[Insertion Sort](insertion-sort.html)** | Shifting | Sorted sub-list expansion & Key placement |
 
 ---
 
-## 📊 Complexity Comparison Table
+## 🧠 Core Algorithm Deep-Dive
 
-| Algorithm | Best Time | Average Time | Worst Time | Space | Stable |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Bubble Sort** | $O(n)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | Yes |
-| **Selection Sort** | $O(n^2)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | No |
-| **Insertion Sort** | $O(n)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | Yes |
+### 1. Bubble Sort (The Optimized Approach)
+Bubble Sort repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. 
 
----
+* **Optimization Strategy**: Includes a `swapped` flag to terminate the process early if the array becomes sorted before the final pass.
+* **Best For**: Detecting an already sorted list in $O(n)$ time.
 
-## 🛠️ Technical Implementation
+### 2. Selection Sort (The Memory Efficient)
+Selection sort finds the smallest element in the unsorted portion and swaps it into its final position.
 
-### Visualization Design
-* **Tech Stack**: HTML5, CSS3 (Flexbox for responsive charts), and Vanilla JavaScript.
-* **Color System**:
-    * 🔵 **Blue**: Unsorted elements.
-    * 🟡 **Yellow**: Currently being compared.
-    * 🔴 **Red**: Currently swapping/moving.
-    * 🟢 **Green**: Sorted and locked in position.
+* **Stability Note**: This is an **Unstable** sort; equal elements may jump over each other during the swap.
+* **Efficiency**: It performs at most $n-1$ swaps, making it ideal when memory writes are expensive.
 
-### Interactive Features
-* **Playback Control**: Auto-Play, Pause, and Step-by-Step execution.
-* **Custom Data**: Manual input (comma-separated) or Random Generation.
-* **Dynamic Parameters**: Adjustable animation speed (100ms - 1900ms) and array size (3 - 15 elements).
+### 3. Insertion Sort (The Real-World Hybrid)
+Insertion sort builds a final sorted array one item at a time. It is much more efficient than the others for small data sets.
+
+* **Adaptive Nature**: It is highly efficient for data sets that are already substantially sorted.
+* **Online Capability**: Can sort a list as it receives it.
 
 ---
 
-## 🚀 How to Run Locally
+## 📊 Performance Matrix
 
-1.  **Clone the repository:**
-    ```bash
-    git clone
+| Algorithm | Best | Average | Worst | Space | Stable |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Bubble** | $O(n)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | ✅ |
+| **Selection** | $O(n^2)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | ❌ |
+| **Insertion** | $O(n)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | ✅ |
+
+---
+
+## 🎨 Visual Language System
+To help users track the state of the data, the system uses a consistent color-coded feedback loop:
+
+* **🔵 Neutral**: Unsorted data waiting to be processed.
+* **🟡 Comparison**: Elements currently being evaluated by the pointer.
+* **🔴 Action**: Elements undergoing a swap or a position shift.
+* **🟢 Finality**: Elements locked in their mathematically correct position.
+
+---
+
+## 🛠️ Developer & User Tools
+* **Speed Control**: Granular slider ranging from **100ms** (Lightning Fast) to **1900ms** (Slow-Motion Analysis).
+* **Data Flexibility**: Toggle between **Randomized Arrays** or **Custom CSV Inputs** to test edge cases.
+* **Code Sync**: A built-in code box highlights the specific line of pseudocode being executed in the animation.
+
+---
+
+## 🚀 Getting Started
+
+1. **Clone the repo**
+   ```bash
+   git clone [https://github.com/PHIN34S/sort_report.git](https://github.com/PHIN34S/sort_report.git)
